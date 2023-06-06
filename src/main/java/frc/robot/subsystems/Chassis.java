@@ -30,9 +30,16 @@ public class Chassis extends SubsystemBase {
  public void move(CommandXboxController joystick){
   double ySpeed = -joystick.getLeftY();
   double xSpeed = joystick.getRightX(); 
-    
-  setXSpeed(xSpeed);
-  setYSpeed(ySpeed);
+
+  double spinSpeed = joystick.getLeftX();
+  
+  if (Math.abs(spinSpeed) > 0.1){ // If the right joystick is pressed drive only with the spin speed
+    setYSpeed(spinSpeed);
+    setXSpeed(spinSpeed);
+  }else{ // Else drive normally with the spin
+    setYSpeed(ySpeed);
+    setXSpeed(xSpeed);
+  }
  }
  
 /* 
