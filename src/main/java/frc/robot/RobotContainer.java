@@ -17,13 +17,7 @@ public class RobotContainer {
   private final Chassis m_drive = new Chassis();
 
   public RobotContainer() {
-    configureBindings();
-
     m_drive.setDefaultCommand(Commands.run(() -> m_drive.move(m_driverController), m_drive));
-  }
-
-  private void configureBindings() {
-    
   }
 
   public Command getAutonomousCommand() {
