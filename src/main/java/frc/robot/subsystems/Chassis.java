@@ -27,19 +27,18 @@ public class Chassis extends SubsystemBase {
  * 
  * Outpot: Nothing | Calles the setXSpeed setYSpeed functions and updates the speed controllers
  */
- public void move(CommandXboxController joystick){
+  public void move(CommandXboxController joystick) {
   double ySpeed = -joystick.getLeftY();
-  double xSpeed = joystick.getRightX(); 
+    double xSpeed = joystick.getLeftX();
+    double spinSpeed = joystick.getRightX();
 
-  double spinSpeed = joystick.getLeftX();
-  
-  if (Math.abs(spinSpeed) > 0.1){ // If the right joystick is pressed drive only with the spin speed
-    setYSpeed(spinSpeed);
-    setXSpeed(spinSpeed);
-  }else{ // Else drive normally with the spin
-    setYSpeed(ySpeed);
-    setXSpeed(xSpeed);
+    // Adjust the spin speed if the Y or X speeds are not zero
+    if (Math.abs(ySpeed) > 0.1 || Math.abs(xSpeed) > 0.1) {
+      spinSpeed *= 0.5; // Reduce the spin speed when moving in a direction
   }
+
+    setYSpeed(ySpeed + spinSpeed);
+    setXSpeed(xSpeed + spinSpeed);
  }
  
 /* 
@@ -47,8 +46,8 @@ public class Chassis extends SubsystemBase {
  * 
  * Outpot: Nothing | Set the speed of the top and bottom speed controllers
  */
- private void setXSpeed(double speed){
-  m_top.set(speed);
+  private void setXSpeed(double speed) {
+    m_top.set(-speed);
   m_bottom.set(speed);
  }
 
@@ -57,8 +56,8 @@ public class Chassis extends SubsystemBase {
  * 
  * Outpot: Nothing | Set the speed of the top and bottom speed controllers
  */
- private void setYSpeed(double speed){
-  m_right.set(speed);
+  private void setYSpeed(double speed) {
+    m_right.set(-speed);
   m_left.set(speed);
  }
 }
